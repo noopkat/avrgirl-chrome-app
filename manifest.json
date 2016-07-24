@@ -1,0 +1,16 @@
+{
+  "name": "avrgirl-arduino chrome app",
+  "description": "An example app, showing how to use avrgirl in a Chrome browser.",
+  "version": "0.1",
+  "manifest_version": 2,
+  "app": {
+    "background": {
+      "scripts": ["background.bundle.js"]
+    }
+  },
+  "externally_connectable": {
+    "matches": ["http://127.0.0.1:*/*"]
+  },
+  "permissions": ["serial"],
+  "icons": { "16": "avrgirl-16.png", "128": "avrgirl-128.png" }
+}

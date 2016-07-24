@@ -1,0 +1,14 @@
+{
+  "name": "avrgirl-chrome-app",
+  "version": "1.0.0",
+  "description": "An example app, showing how to use avrgirl in a Chrome browser.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Suz Hinton",
+  "license": "MIT",
+  "dependencies": {
+    "avrgirl-arduino": "^1.9.0"
+  }
+}

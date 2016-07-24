@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Demo</title>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="description" content="Demo">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style>
+     label {
+      display: block;
+      padding: 10px 0 10px 0;
+     }
+    </style>
+  </head>
+  <body>
+    <p>Choose a file to upload to an arduino</p>
+
+    <form id="uploadForm"> 
+      <label>File:
+        <input id="fileInput" type="file"/>
+      </label>
+
+      <label>Arduino board:
+        <select id="boardType">
+          <option value="uno">Uno</option>
+          <option value="mega">Mega</option>
+          <option value="micro">Micro</option>
+        </select>
+      </label>
+      
+      <input type="submit" id="uploadBtn" value="Upload!"/>
+    </form>
+
+    <script type="text/javascript">
+
+      function handleSubmit(e) {
+        e.preventDefault();
+
+        // get the file chosen from the form
+        var file = fileInput.files[0];
+        var reader = new FileReader();
+
+        // get the requested board name
+        var board = boardType.value;
+
+        reader.onload = function(event) {
+
+          // get the string text of the file
+          var filecontents = event.target.result;
+
+          // get the message payload ready to send to the chrome app
+          var message = {
+            board: board, 
+            file: filecontents
+          };
+
+          // post object to extension so that it will flash the file
+          port.postMessage(message);
+        };
+
+        // we can send the filecontents to the chrome app as plain text
+        reader.readAsText(file);
+      }
+
+      var uploadForm = document.getElementById('uploadForm');
+      var fileInput = document.getElementById('fileInput');
+      var boardType = document.getElementById('boardType');
+      var uploadBtn = document.getElementById('uploadBtn');
+
+      uploadForm.addEventListener('submit', handleSubmit, false);
+
+      // open long lived connection with extension (it takes time for flash to complete)
+      var extensionid = 'nhnbpmfoaobijgenpglphdlnffigljlm';
+      var port = chrome.runtime.connect(extensionid);
+
+      // log out any responses we get from the chrome app
+      port.onMessage.addListener(function(msg) {
+        console.log('avrgirl is done:', msg);
+      });
+
+    </script>
+  </body>
+</html>
